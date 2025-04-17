@@ -3,9 +3,13 @@ Giải thích chi tiết.
 
 data <- read.csv("~/BTL_XSTK/data.csv", header = TRUE, sep = ",")
 head(data, 10)
+
 •	read.csv(...): Đọc dữ liệu từ file CSV.
+
 •	header = TRUE: Dòng đầu tiên là tiêu đề cột.
+
 •	sep = ",": Các giá trị được phân tách bằng dấu phẩy.
+
 •	head(data, 10): Hiển thị 10 dòng đầu tiên để kiểm tra dữ liệu đã đọc.
 ________________________________________
 2.1 Chọn lọc dữ liệu
