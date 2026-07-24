@@ -35,7 +35,7 @@ Cấu trúc nguyên thủy của bộ dữ liệu bao gồm 9 thông số cài �
 ├── r_code/
 │   └── BTL.R                    # Toàn bộ mã nguồn R (Tiền xử lý, Vẽ đồ thị, Kiểm định, Hồi quy)
 ├── README.md                    # Hướng dẫn đọc code (File này)
-└── report.pdf/                  # File report của báo cáo
+└── report.pdf/                  # File report
 ---
 ```
 
