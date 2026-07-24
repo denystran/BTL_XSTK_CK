@@ -33,6 +33,7 @@ Dự án này ứng dụng các phương pháp Xác suất thống kê (Thống 
 │   ├── cover.tex                # Trang bìa báo cáo
 │   ├── logo-bkhcm.png           # Logo trường DHBK
 │   └── images/                  # Chứa các biểu đồ (.pdf, .png) xuất ra từ R
+├── report.pdf/                  # File report của báo cáo
 └── README.md                    # Hướng dẫn đọc code (File này)
 ---
 ```
