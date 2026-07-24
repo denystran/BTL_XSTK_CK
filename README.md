@@ -22,7 +22,7 @@ Dự án này ứng dụng các phương pháp Xác suất thống kê (Thống 
 │   └── data.csv                 # Tập dữ liệu thực nghiệm gốc (Dataset)
 ├── r_code/
 │   └── BTL.R        # Toàn bộ mã nguồn R (Tiền xử lý, Vẽ đồ thị, Kiểm định, Hồi quy)
-├── latex_report/
+├── BTL_XSTK_latex/
 │   ├── main.tex                 # File LaTeX tổng (Preamble & Master layout)
 │   ├── chapter1.tex             # Giới thiệu đề tài.
 │   ├── chapter2.tex             # Cơ sở lý thuyết
