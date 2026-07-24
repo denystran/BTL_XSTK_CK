@@ -581,115 +581,67 @@ Ta tách các nhóm dữ liệu ra từng tập dữ liệu riêng sau đó dùn
 \end{verbatim}
 
 Theo kết quả của code R, nhóm data có layer\_height là 0.1 và 0.15 không
-tuân theo phân phối chuẩn, còn các nhóm còn lại tuân theo phân phối
-chuẩn do có giá trị \texttt{p-value} lớn hơn mức ý nghĩa 5\%.
+tuân theo phân phối chuẩn do có p-value bé hơn mức ý nghĩa 5\%, còn các
+nhóm còn lại tuân theo phân phối chuẩn do có giá trị p-value lớn hơn mức
+ý nghĩa 5\%. Vì điều kiện phân phối chuẩn bị vi phạm, mô hình ANOVA và
+phép hậu kiểm Tukey HSD sẽ không còn độ tin cậy và có thể dẫn đến sai
+lệch. Do đó, ta quyết định hủy bỏ ANOVA và chuyển sang sử dụng kiểm định
+phi tham số. 
 
-Điều kiện thứ ba: Phương sai ở các tổng thể phải bằng nhau.
-
-Ta có:
-
-\begin{itemize}
-\item
-  \(H_0\): Phương sai độ nhám ở các nhóm bằng nhau.
-\item
-  \(H_1\): Có ít nhất 2 nhóm có phương sai độ nhám khác nhau.
-\end{itemize}
-
-\emph{Ta dùng hàm leveneTest để tính toán các giá trị về phương sai.}
+\subsubsection{3.3. Kiểm định phi tham số
+Kruskal-Wallis}
+Kiểm định Kruskal-Wallis dùng để so sánh trung vị của
+các nhóm thay vì trung bình, giúp mô hình không bị ảnh hưởng bởi việc dữ liệu không tuân theo phân phối chuẩn.\\ 
+\(H_0\): Trung vị độ nhám của 5 mức layer\_height là hoàn toàn giống nhau.\\
+\(H_1\): Tồn tại ít nhất một mức tạo ra trung vị độ nhám khác biệt.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(car)}
-\FunctionTok{leveneTest}\NormalTok{(roughness }\SpecialCharTok{\textasciitilde{}}\NormalTok{ layer\_height, data)}
+\NormalTok{kruskal\_model }\OtherTok{\textless{}{-}} \FunctionTok{kruskal.test}\NormalTok{(roughness }\SpecialCharTok{\textasciitilde{}}\NormalTok{ layer\_height, }\AttributeTok{data =}\NormalTok{ data)}
+\FunctionTok{print}\NormalTok{(kruskal\_model)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Levene's Test for Homogeneity of Variance (center = median)
-##       Df F value Pr(>F)
-## group  4  1.4956 0.2195
-##       45
+## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  roughness by layer_height
+## Kruskal-Wallis chi-squared = 35.282, df = 4, p-value = 4.066e-07
 \end{verbatim}
 
-Ta thấy giá trị của \texttt{Pr(\textgreater{}F)\ =\ 0.2195} lớn hơn mức
-ý nghĩa 5\%
+Ta thấy giá trị p-value = 9.944e-07 nhỏ hơn mức ý nghĩa 5\%.
+\(\Rightarrow\) Bác bỏ \(H_0\), chấp nhận \(H_1\). 
+\(\Rightarrow\) Có sự khác biệt về trung vị độ nhám giữa 5 nhóm chiều cao lớp in.
+\subsubsection{3.4. Phân tích sâu sau kiểm định (So sánh bội Post-hoc)}
 
-\(\Rightarrow\) Chấp nhận \(H_0\), phương sai độ nhám ở các nhóm bằng nhau.
-
-\textbf{Kết luận:} Ta thấy dữ liệu thỏa điều kiện thứ nhất, điều kiện
-thứ ba nhưng ở điều kiện thứ hai còn một số nhóm data không thỏa mãn
-
-\(\Rightarrow\) ANOVA trong dữ liệu này có thể mang tính chất tham khảo và có thể hoàn
-toàn không chính xác.
-
-\textbf{3.3. Phân tích sâu sau ANOVA (so sánh bội)}
+Để tìm ra chính xác cặp thông số nào có sự khác biệt, ta sử
+dụng kiểm định Wilcoxon với hiệu chỉnh Bonferroni
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{TukeyHSD}\NormalTok{(anova\_model)}
+\NormalTok{posthoc\_result }\OtherTok{\textless{}{-}} \FunctionTok{pairwise.wilcox.test}\NormalTok{(data}\SpecialCharTok{$$}\NormalTok{roughness, data}\SpecialCharTok{$}\NormalTok{layer\_height, }
+                                       \AttributeTok{p.adjust.method =} \StringTok{"bonferroni"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(posthoc\_result)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##   Tukey multiple comparisons of means
-##     95% family-wise confidence level
 ## 
-## Fit: aov(formula = roughness ~ layer_height, data = data)
+##  Pairwise comparisons using Wilcoxon rank sum exact test 
 ## 
-## $layer_height
-##            diff        lwr       upr     p adj
-## 0.06-0.02  78.3   4.053227 152.54677 0.0341507
-## 0.1-0.02  150.5  76.253227 224.74677 0.0000069
-## 0.15-0.02 162.2  87.953227 236.44677 0.0000015
-## 0.2-0.02  238.4 164.153227 312.64677 0.0000000
-## 0.1-0.06   72.2  -2.046773 146.44677 0.0602239
-## 0.15-0.06  83.9   9.653227 158.14677 0.0196501
-## 0.2-0.06  160.1  85.853227 234.34677 0.0000020
-## 0.15-0.1   11.7 -62.546773  85.94677 0.9914005
-## 0.2-0.1    87.9  13.653227 162.14677 0.0130196
-## 0.2-0.15   76.2   1.953227 150.44677 0.0416948
+## data:  data$roughness and data$layer_height 
+## 
+##      0.02    0.06    0.1     0.15   
+## 0.06 0.00130 -       -       -      
+## 0.1  0.00011 0.27571 -       -      
+## 0.15 0.00011 0.03605 1.00000 -      
+## 0.2  0.00011 0.00032 0.24584 0.09537
+## 
+## P value adjustment method: bonferroni
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(}\FunctionTok{TukeyHSD}\NormalTok{(anova\_model))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[htbp]
-    \centering
-    \pandocbounded{\includegraphics[keepaspectratio]{unnamed-chunk-30-1.pdf}}
-    \caption{Đồ thị kiểm định hậu kiểm Tukey (Tukey HSD) cho các mức chiều cao lớp in}
-    \label{fig:tukey_layer}
-\end{figure}
-\newpage
-
-Ta có:
-
-\begin{itemize}
-\item
-  \(H_0: \mu_i = \mu_j (i \neq j)\)
-\item
-  \(H_1: \mu_i \neq \mu_j (i \neq j)\)
-\end{itemize}
-
-Ta xét giá trị của \texttt{p-adj} nếu giá trị bé hơn mức ý nghĩa 5\% thì
-sẽ bác bỏ \(H_0\) và chấp nhận \(H_1\)
-
-Dựa vào giá trị sau khi tính toán hàm \texttt{TukeyHSD()} ta có: cặp giá
-trị giữa \texttt{0.1\ –\ 0.06} và \texttt{0.15\ –\ 0.1} là lớn hơn mức ý
-nghĩa 5\%
-
-\(\Rightarrow\) Ta có: \(\mu_0.1 =\mu_0.6 %; %\mu_0.15 = \mu_0.1
-\)
-
-Bên cạnh đó, dựa trên các kết quả tính được, ta có thể sắp xếp theo thứ
-tự giảm dần của các trung bình tổng thể như sau:
-\(\mu_0.2>\mu_0.15=\mu_0.1>\mu_0.06>\mu_0.02\)
-
-\textbf{Kết luận:} Muốn độ nhám thấp nhất thì \texttt{layer\_height}
-cũng phải thấp nhất là \texttt{0.02}, muốn độ nhám giảm đi thì chiều cao
-lớp in \texttt{layer\_height} cũng phải giảm đi.
+Kết luận: Dựa vào ma trận p-value sau khi hiệu chỉnh Bonferroni, ta thấy mức layer\_height = 0.02 có sự khác biệt rõ rệt (p-value \textless{} 0.05) so với các mức 0.15 và 0.2. Chiều cao lớp in càng thấp thì độ nhám bề mặt càng nhỏ. Muốn độ nhám thấp nhất thì layer\_height cũng phải thấp nhất là 0.02, muốn độ nhám giảm đi thì chiều cao lớp in layer\_height cũng phải giảm đi.
 
 \subsection*{4. Bài toán hồi quy tuyến tính đơn}
 
