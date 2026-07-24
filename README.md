@@ -18,10 +18,6 @@ Dự án này ứng dụng các phương pháp Xác suất thống kê (Thống 
 Để tiện cho việc theo dõi và chấm điểm, toàn bộ mã nguồn được chia tách rõ ràng thành hai môi trường xử lý độc lập:
 
 ```text
-├── data/
-│   └── data.csv                 # Tập dữ liệu thực nghiệm gốc (Dataset)
-├── r_code/
-│   └── BTL.R        # Toàn bộ mã nguồn R (Tiền xử lý, Vẽ đồ thị, Kiểm định, Hồi quy)
 ├── BTL_XSTK_latex/
 │   ├── main.tex                 # File LaTeX tổng (Preamble & Master layout)
 │   ├── chapter1.tex             # Giới thiệu đề tài.
@@ -33,8 +29,12 @@ Dự án này ứng dụng các phương pháp Xác suất thống kê (Thống 
 │   ├── cover.tex                # Trang bìa báo cáo
 │   ├── logo-bkhcm.png           # Logo trường DHBK
 │   └── images/                  # Chứa các biểu đồ (.pdf, .png) xuất ra từ R
-├── report.pdf/                  # File report của báo cáo
-└── README.md                    # Hướng dẫn đọc code (File này)
+├── data/
+│   └── data.csv                 # Tập dữ liệu thực nghiệm gốc (Dataset)
+├── r_code/
+│   └── BTL.R                    # Toàn bộ mã nguồn R (Tiền xử lý, Vẽ đồ thị, Kiểm định, Hồi quy)
+├── README.md                    # Hướng dẫn đọc code (File này)
+└── report.pdf/                  # File report của báo cáo
 ---
 ```
 
