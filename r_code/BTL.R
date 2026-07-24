@@ -3,7 +3,7 @@ library(car)
 library(corrplot)
 # Tiền xử lý dữ liệu
 # Đọc dữ liệu từ file data.csv
-data <- read.csv("~/BTL_XSTK/data.csv", header = TRUE, sep = ",")
+data <- read.csv("C:\\Users\\denys\\Desktop\\Documents\\Study\\XSTK\\BTL\\data.csv", header = TRUE, sep = ",")
 head(data, 10) # Xuất 10 dòng đầu của dữ liệu
 
 # 1. Làm sạch dữ liệu
@@ -88,15 +88,21 @@ data_0.1 <- subset(data, layer_height == "0.1")
 data_0.15 <- subset(data, layer_height == "0.15")
 data_0.2 <- subset(data, layer_height == "0.2")
 
+# Kiểm định Shapiro-Wilk
 shapiro.test(data_0.02$roughness)
 shapiro.test(data_0.06$roughness)
-shapiro.test(data_0.1$roughness)
-shapiro.test(data_0.15$roughness)
+shapiro.test(data_0.1$roughness)  
+shapiro.test(data_0.15$roughness) 
 shapiro.test(data_0.2$roughness)
 
-leveneTest(roughness ~ layer_height, data)
-TukeyHSD(anova_model)
-plot(TukeyHSD(anova_model))
+# Kruskal-Wallis.
+kruskal_model <- kruskal.test(roughness ~ layer_height, data = data)
+print(kruskal_model)
+
+# Phân tích sâu (Post-hoc) bằng Wilcoxon rank-sum test với hiệu chỉnh Bonferroni
+posthoc_result <- pairwise.wilcox.test(data$roughness, data$layer_height, 
+                                       p.adjust.method = "bonferroni")
+print(posthoc_result)
 
 # 4. Hồi quy tuyến tính đa biến
 model_1 <- lm(roughness ~ layer_height + wall_thickness + infill_density + infill_pattern + 
