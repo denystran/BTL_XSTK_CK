@@ -9,8 +9,9 @@
 
 ---
 
-## 🎯 Mục tiêu Dự án
-Dự án này ứng dụng các phương pháp Xác suất thống kê (Thống kê mô tả, T-test, ANOVA, Hồi quy tuyến tính bội) để phân tích bộ dữ liệu thực nghiệm gồm 50 mẫu in 3D. Mục tiêu nhằm định lượng mức độ ảnh hưởng của các thông số cắt lớp (layer height, infill density, material,...) đến chất lượng bề mặt (roughness) của sản phẩm in3d, từ đó đề xuất thông số tối ưu.
+## 🎯 Giới thiệu đề tài
+Bộ dữ liệu thực nghiệm được sử dụng trong đề tài bắt nguồn từ nghiên cứu của Khoa Kỹ thuật Cơ khí, Đại học Selcuk (Thổ Nhĩ Kỳ). Mục tiêu nguyên bản của nghiên cứu là đánh giá mức độ ảnh hưởng của các thông số điều chỉnh trên máy in 3D (phương pháp FDM) đến chất lượng bề mặt, độ chính xác kích thước và độ bền cơ học của chi tiết in. 
+Cấu trúc nguyên thủy của bộ dữ liệu bao gồm 9 thông số cài đặt đầu vào (biến độc lập) và 3 thông số đầu ra được đo lường (biến phụ thuộc). Tuy nhiên, để đảm bảo tính tập trung và chuyên sâu, trong khuôn khổ của bài báo cáo này, phạm vi phân tích được giới hạn cục bộ ở việc đánh giá một thông số đầu ra duy nhất: độ nhám bề mặt (roughness) đại diện cho chất lượng in. Hai thông số đầu ra còn lại (độ giãn dài và sức căng bề mặt) được xem như hướng mở rộng của đề tài.
 
 ---
 
