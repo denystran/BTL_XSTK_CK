@@ -1,0 +1,73 @@
+\section{III. Tiền xử lý dữ liệu}
+\label{iii.-tiux1ec1n-xux1eed-luxfd-dux1eef-liux1ec7u}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"C:}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{Users}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{denys}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{Desktop}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{Documents}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{Study}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{XSTK}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{BTL}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{data.csv"}\NormalTok{, }
+\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{sep =} \StringTok{","}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{1. Làm sạch dữ liệu}
+
+Các biến trong dữ liệu gồm:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{layer\_height}: Chiều cao layer
+\item
+  \texttt{wall\_thickness}: Độ dày
+\item
+  \texttt{infill\_density}: Mật độ lấp đầy
+\item
+  \texttt{infill\_pattern}: Mật độ mô hình
+\item
+  \texttt{nozzle\_temperature}: Nhiệt độ vòi phun
+\item
+  \texttt{bed\_temperature}: Nhiệt độ khay
+\item
+  \texttt{print\_speed}: Tốc độ in
+\item
+  \texttt{material}: Vật liệu
+\item
+  \texttt{fan\_speed}: Tốc độ quạt
+\item
+  \texttt{roughness}: Độ nhám bề mặt
+\end{itemize}
+
+Ta tạo một dữ liệu mới tên \textbf{new\_data} gồm các biến ta quan tâm
+trong dữ liệu:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{selected\_columns }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"layer\_height"}\NormalTok{,}\StringTok{"wall\_thickness"}\NormalTok{,}\StringTok{"infill\_density}\NormalTok{,}\StringTok{"infill\_pattern"}
+\NormalTok{,}\StringTok{"nozzle\_temperature"}\NormalTok{, }\StringTok{"bed\_temperature"}\NormalTok{,}\StringTok{"print\_speed"}\NormalTok{,}\StringTok{"material"}\NormalTok{,}\StringTok{"fan\_speed"}\NormalTok{,}\StringTok{"roughness"}\NormalTok{)}
+\NormalTok{new\_data }\OtherTok{\textless{}{-}}\NormalTok{ data[, selected\_columns]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2. Kiểm tra dữ liệu khuyết:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{freq.na}\NormalTok{(new\_data) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    missing %
+## layer_height             0 0
+## wall_thickness           0 0
+## infill_density           0 0
+## infill_pattern           0 0
+## nozzle_temperature       0 0
+## bed_temperature          0 0
+## print_speed              0 0
+## material                 0 0
+## fan_speed                0 0
+## roughness                0 0
+\end{verbatim}
+
+\textbf{Nhận xét:} Không có dữ liệu nào bị khuyết.
+\newpage

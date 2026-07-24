@@ -1,0 +1,71 @@
+\section{II. Cơ sở lý thuyết}
+
+\subsection{1. Lý do chọn mô hình}
+Trong đề tài này, biến phụ thuộc được lựa chọn là chất lượng bề mặt của sản phẩm in 3D, được biểu diễn qua chỉ tiêu độ nhám (\texttt{roughness}). Đây là biến định lượng liên tục. Bên cạnh đó, các biến độc lập trong bộ dữ liệu gồm cả biến định lượng như nhiệt độ mũi in, tốc độ in, chiều dày lớp in, mật độ lấp đầy (\texttt{infill\_density}), và biến định tính như vật liệu in hoặc kiểu điền đầy (\texttt{infill\_pattern}).
+
+Do mục tiêu của đề tài là phân tích mức độ ảnh hưởng của nhiều yếu tố kỹ thuật đến độ nhám bề mặt của sản phẩm in 3D, mô hình hồi quy tuyến tính bội được lựa chọn vì cho phép xem xét đồng thời tác động của nhiều biến độc lập lên một biến phụ thuộc liên tục. Mô hình này giúp xác định chiều tác động, mức độ tác động và ý nghĩa thống kê của từng yếu tố, từ đó làm cơ sở cho việc đề xuất cải tiến độ mịn màng của bề mặt sản phẩm.
+
+Ngoài ra, phân tích phương sai (ANOVA một yếu tố) được sử dụng để kiểm định sự khác biệt về giá trị trung bình của độ nhám giữa các nhóm dữ liệu phân loại, chẳng hạn như giữa các loại vật liệu hoặc các mức chiều cao lớp in khác nhau. Việc kết hợp hồi quy tuyến tính bội và ANOVA giúp đề tài vừa đánh giá được ảnh hưởng riêng lẻ theo nhóm, vừa phân tích được tác động tổng hợp của nhiều thông số công nghệ.
+
+\subsection{2. Mô hình hồi quy tuyến tính bội}
+\subsubsection{2.1. Công thức tổng quát}
+Mô hình hồi quy tuyến tính bội là mô hình biểu diễn mối quan hệ giữa một biến phụ thuộc định lượng và nhiều biến độc lập. Dạng tổng quát của mô hình được viết như sau
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_k X_k + \epsilon$$
+Trong đó:
+\begin{itemize}
+    \item $Y$ là biến phụ thuộc, trong đề tài này là độ nhám bề mặt (\texttt{roughness}) của sản phẩm in 3D.
+    \item $X_1, X_2, \dots, X_k$ là các biến độc lập (thông số cài đặt máy in).
+    \item $\beta_0$ là hệ số chặn.
+    \item $\beta_i$ là hệ số hồi quy của biến $X_i$.
+    \item $\epsilon$ là sai số ngẫu nhiên.
+\end{itemize}
+Thông qua mô hình này, có thể xác định mức độ thay đổi trung bình của biến phụ thuộc khi một biến độc lập thay đổi, trong điều kiện các biến còn lại không đổi.
+
+\subsubsection{2.2. Kiểm định t (t-test)}
+Kiểm định t trong mô hình hồi quy được dùng để đánh giá ý nghĩa thống kê của từng hệ số hồi quy. Mỗi hệ số $\beta_i$ được kiểm định với giả thuyết:
+\begin{itemize}
+    \item $H_0: \beta_i = 0$
+    \item $H_1: \beta_i \neq 0$
+\end{itemize}
+Nếu $p\text{-value} < \alpha$ (thường $\alpha = 0.05$) thì bác bỏ $H_0$, từ đó kết luận biến độc lập tương ứng có ảnh hưởng có ý nghĩa thống kê đến biến phụ thuộc. Trong đề tài này, kiểm định t giúp xác định thông số cắt lớp nào thực sự làm thay đổi độ nhám của sản phẩm.
+
+\subsubsection{2.3. Hệ số xác định $R^2$ và $R^2$ hiệu chỉnh}
+Hệ số xác định $R^2$ phản ánh mức độ giải thích của mô hình hồi quy đối với sự biến thiên của biến phụ thuộc. Giá trị $R^2$ càng lớn thì mô hình càng giải thích tốt dữ liệu. Tuy nhiên, khi số lượng biến độc lập tăng lên, $R^2$ thường tăng dù biến mới có thể không thật sự có ý nghĩa.
+
+Vì vậy, đề tài sử dụng thêm hệ số xác định hiệu chỉnh $R_{adj}^2$, là chỉ tiêu đánh giá mức độ phù hợp của mô hình có xét đến số lượng biến độc lập. Chỉ tiêu này giúp lựa chọn mô hình hợp lý hơn trong trường hợp có nhiều yếu tố cùng được đưa vào phân tích.
+
+\subsubsection{2.4. Các điều kiện áp dụng hồi quy tuyến tính bội}
+\begin{itemize}
+    \item \textbf{Tính tuyến tính:} Mối quan hệ giữa biến phụ thuộc và từng biến độc lập là tuyến tính.
+    \item \textbf{Độc lập phần dư:} Không có sự tự tương quan của các sai số.
+    \item \textbf{Phân phối chuẩn của phần dư:} Phần dư tuân theo phân phối chuẩn với trung bình bằng 0.
+    \item \textbf{Phương sai không đổi (Homoscedasticity):} Độ phân tán của phần dư không thay đổi theo giá trị dự đoán.
+    \item \textbf{Không đa cộng tuyến:} Các biến độc lập không có quan hệ tuyến tính mạnh với nhau.
+\end{itemize}
+
+\subsection{3. Phân tích phương sai (ANOVA một yếu tố)}
+\subsubsection{3.1. Khái niệm}
+ANOVA một yếu tố là phương pháp dùng để kiểm định xem giá trị trung bình của một biến định lượng có khác biệt giữa từ ba nhóm trở lên hay không. Trong đề tài này, ANOVA một yếu tố được sử dụng để xem xét sự khác biệt về độ nhám bề mặt giữa các nhóm thuộc một yếu tố phân loại, chẳng hạn như vật liệu in, kiểu điền đầy hoặc các mức chiều cao lớp in.
+
+\subsubsection{3.2. Các bước thực hiện}
+\begin{enumerate}
+    \item \textbf{Xác định cặp giả thuyết thống kê:}
+    \begin{itemize}
+        \item $H_0: \mu_1 = \mu_2 = \dots = \mu_k$ (Trung bình độ nhám của các nhóm bằng nhau).
+        \item $H_1: \exists \mu_i \neq \mu_j$ (Có ít nhất một cặp giá trị trung bình giữa các nhóm có sự khác biệt).
+    \end{itemize}
+    \item \textbf{Tính toán thống kê kiểm định F:} Xác định giá trị quan sát $F_{obs}$ dựa trên biến thiên giữa các nhóm và biến thiên nội tại trong nhóm.
+    \item \textbf{Xác định giá trị p-value:} Dựa trên phân phối F với bậc tự do tương ứng.
+    \item \textbf{So sánh p-value} với mức ý nghĩa $\alpha = 0.05$.
+    \item \textbf{Kết luận về ý nghĩa thống kê:}
+    \begin{itemize}
+        \item Nếu $p\text{-value} < \alpha$: Bác bỏ giả thuyết $H_0$, chấp nhận $H_1$.
+        \item Nếu $p\text{-value} \ge \alpha$: Chưa đủ cơ sở bác bỏ $H_0$.
+    \end{itemize}
+\end{enumerate}
+\textit{Lưu ý:} Nếu kết quả kiểm định cho thấy có sự khác biệt có ý nghĩa thống kê ($p < \alpha$), ta có thể tiếp tục thực hiện các phép kiểm định so sánh cặp (Post-hoc tests) như Tukey HSD để xác định cụ thể nhóm nào có sự khác biệt rõ rệt.
+
+\subsection{4. Giới thiệu phần mềm phân tích}
+RStudio là môi trường phát triển tích hợp (IDE) phổ biến cho ngôn ngữ R, được sử dụng rộng rãi trong phân tích dữ liệu và thống kê. Công cụ này hỗ trợ cực kỳ mạnh mẽ cho việc xử lý dữ liệu, thực hiện kiểm định thống kê, xây dựng mô hình hồi quy và trực quan hóa dữ liệu (thông qua các package như \texttt{ggplot2}, \texttt{corrplot}).
+
+Trong đề tài này, RStudio được sử dụng làm công cụ chủ đạo để thực hiện toàn bộ quy trình từ làm sạch dữ liệu đến triển khai các phương pháp thống kê mô tả, kiểm định và xây dựng mô hình hồi quy tuyến tính bội. Đồng thời, công cụ này đóng vai trò quan trọng trong việc vẽ các đồ thị đặc trưng như histogram, boxplot, scatter plot và ma trận tương quan (heatmap). Việc khai thác RStudio giúp quá trình phân tích số liệu thực nghiệm cơ khí được thực hiện một cách chính xác và đạt hiệu quả tối ưu.

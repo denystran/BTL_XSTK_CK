@@ -1,0 +1,54 @@
+\section{VI. Thảo luận và mở
+rộng.}\label{vi.-thux1ea3o-luux1eadn-vuxe0-mux1edf-rux1ed9ng.}
+
+Từ việc phân tích có thể thấy các yếu tố ảnh hưởng đến độ nhám là:
+\texttt{layer\_height}, \texttt{nozzle\_temperature},
+\texttt{bed\_temperature}, \texttt{material}, cuối cùng là
+\texttt{print\_speed}.
+
+\(R^2\) hiệu chỉnh = 0.8571 cho thấy mô hình ta xây dựng tương đối phù
+hợp trong việc thực hiện dự báo.
+
+Ưu điểm của phương pháp hồi quy chính là một phương pháp thống kê để
+thiết lập mối quan hệ giữa một biến phụ thuộc và một nhóm tập hợp các
+biến độc lập. Mô hình với một biến phụ thuộc với hai hoặc nhiều biến độc
+lập được gọi là hồi quy bội (hay còn gọi là hồi quy đa biến).
+
+Hồi quy tuyến tính bội dễ hiểu và dễ triển khai, đặc biệt khi các biến
+có mối quan hệ tuyến tính và hiệu quả tính toán của phương pháp này có
+thể được tính toán nhanh chóng.
+
+Dự đoán chính xác các biến độc lập có mối quan hệ tuyến tính mạnh với
+biến phụ thuộc, phương pháp hồi quy tuyến tính bội có thể cung cấp các
+dự đoán chính xác, các hệ số hồi quy tuyến tính bội cung cấp thông tin
+về mối quan hệ giữa từng biến độc lập và biến phụ thuộc, giúp hiểu rõ
+hơn về ảnh hưởng của từng yếu tố. và tiện lợi cho kiểm định giả thuyết,
+dễ dàng thực hiện các kiểm định giả thuyết về các hệ số hồi quy để kiểm
+tra sự ảnh hưởng của các biến độc lập ngay cả với dữ liệu lớn, nhờ các
+thuật toán tối ưu hóa hiệu quả.
+
+Tuy nhiên mô hình cũng có một số nhược điểm như: Phương pháp này giả
+định rằng mối quan hệ giữa các biến độc lập và biến phụ thuộc là tuyến
+tính, điều này không phải lúc nào cũng đúng trong thực tế, hồi quy tuyến
+tính bội rất nhạy cảm với các điểm dữ liệu ngoại lệ, có thể làm sai lệch
+mô hình.
+
+Khi các biến độc lập có tương quan cao với nhau, nó có thể gây ra đa
+cộng tuyến, làm cho các ước lượng hệ số hồi quy không ổn định và khó
+diễn giải. Phương pháp này giả định rằng các sai số có phân phối chuẩn
+và có phương sai không đổi. Nếu các giả định này không được thỏa mãn,
+kết quả hồi quy có thể không tin cậy.
+
+Không phù hợp cho các mối quan hệ phi tuyến tính: Đối với các mối quan
+hệ phi tuyến tính giữa các biến, hồi quy tuyến tính bội không phải là
+lựa chọn tốt nhất. Các phương pháp khác như hồi quy phi tuyến hoặc mô
+hình cây quyết định có thể phù hợp hơn.
+
+Ngoài ra, đề tài ta có thể phân tích xây dựng bổ sung hai mô hình hồi
+quy của hai biến \texttt{roughness} và \texttt{elongation} dựa trên cách
+thức giống như xây dựng mô hình ứng với biến \texttt{tension\_strenght}.
+
+Từ những phương pháp này mà đề tài đã đánh giá được hiệu quả những yếu
+tố của biến ảnh hướng đến các sức căng bề in 3D theo như bài toán đã
+được đặt ra.
+\newpage

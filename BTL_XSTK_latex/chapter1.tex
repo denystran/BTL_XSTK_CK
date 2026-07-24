@@ -1,0 +1,57 @@
+\section{I. Giới thiệu đề tài.}
+\subsection{1. Ngữ cảnh và nguồn gốc dữ liệu}
+Bộ dữ liệu thực nghiệm được sử dụng trong đề tài bắt nguồn từ nghiên cứu của Khoa Kỹ thuật Cơ khí, Đại học Selcuk (Thổ Nhĩ Kỳ). Mục tiêu nguyên bản của nghiên cứu là đánh giá mức độ ảnh hưởng của các thông số điều chỉnh trên máy in 3D (phương pháp FDM) đến chất lượng bề mặt, độ chính xác kích thước và độ bền cơ học của chi tiết in.
+
+Cấu trúc nguyên thủy của bộ dữ liệu bao gồm 9 thông số cài đặt đầu vào (biến độc lập) và 3 thông số đầu ra được đo lường (biến phụ thuộc). Tuy nhiên, để đảm bảo tính tập trung và chuyên sâu, trong khuôn khổ của bài báo cáo này, phạm vi phân tích được giới hạn cục bộ ở việc đánh giá một thông số đầu ra duy nhất: độ nhám bề mặt (\texttt{roughness}) đại diện cho chất lượng in. Hai thông số đầu ra còn lại (độ giãn dài và sức căng bề mặt) được xem như hướng mở rộng của đề tài.
+
+Bộ dữ liệu bao gồm tổng cộng 50 giá trị quan trắc ($n = 50$). Đây là cỡ mẫu đủ lớn để đảm bảo độ tin cậy cho các kiểm định thống kê và mô hình hồi quy tuyến tính.
+
+\subsection{2. Phân loại các biến quan trắc}
+Bộ dữ liệu bao gồm 10 biến, được chia thành hai nhóm chính phục vụ cho việc phân tích:
+
+\subsubsection{2.1. Biến phụ thuộc (Biến mục tiêu):}
+\begin{itemize}
+    \item \texttt{roughness} (Định lượng): Độ nhám bề mặt của chi tiết in 3D (đơn vị: $\mu m$). Đây là tiêu chí cốt lõi để đánh giá chất lượng gia công.
+\end{itemize}
+
+\subsubsection{2.2. Biến độc lập (Các yếu tố ảnh hưởng):}
+\begin{itemize}
+    \item \textbf{Nhóm biến định lượng (Liên tục):}
+    \begin{itemize}
+        \item \texttt{layer\_height}: Chiều cao của mỗi lớp in (mm).
+        \item \texttt{wall\_thickness}: Bề dày lớp vỏ bao hình (mm).
+        \item \texttt{infill\_density}: Tỉ lệ phần trăm điền đầy vật liệu bên trong (\%).
+        \item \texttt{nozzle\_temperature}: Nhiệt độ gia nhiệt tại vòi phun ($^\circ C$).
+        \item \texttt{bed\_temperature}: Nhiệt độ gia nhiệt tại bàn in ($^\circ C$).
+        \item \texttt{print\_speed}: Tốc độ dịch chuyển của đầu in (mm/s).
+        \item \texttt{fan\_speed}: Tốc độ quạt tản nhiệt thổi vào chi tiết (\%).
+    \end{itemize}
+    \item \textbf{Nhóm biến định tính (Phân loại):}
+    \begin{itemize}
+        \item \texttt{material}: Loại vật liệu nhựa sử dụng (gồm 2 mức: ABS và PLA).
+        \item \texttt{infill\_pattern}: Kiểu biên dạng điền đầy bên trong (gồm 2 mức: \texttt{grid} - lưới chữ nhật và \texttt{honeycomb} - tổ ong).
+    \end{itemize}
+\end{itemize}
+
+\subsection{3. Các bước thực hiện}
+
+Để giải quyết bài toán đặt ra, nghiên cứu được tiến hành tuần tự theo 6 bước cốt lõi sau:
+
+\begin{enumerate}
+    \item \textbf{Đọc dữ liệu (Import data):} Nạp tập dữ liệu thực nghiệm chứa các thông số cài đặt máy in 3D và kết quả đo lường độ nhám bề mặt.
+    
+    \item \textbf{Làm sạch dữ liệu (Data cleaning):} Kiểm tra và xử lý các giá trị khuyết thiếu (NA), dữ liệu lỗi hoặc nhiễu đối với các biến quan trắc (như độ nhám \texttt{roughness}, chiều cao lớp in \texttt{layer\_height}, nhiệt độ bàn in \texttt{bed\_temperature},\dots).
+    
+    \item \textbf{Làm rõ dữ liệu (Data visualization):}
+    \begin{itemize}
+        \item \textit{Chuyển đổi biến (nếu cần thiết):} Chuyển các biến định tính (như vật liệu \texttt{material}, kiểu điền đầy \texttt{infill\_pattern}) sang định dạng factor phục vụ phân loại, hoặc biến đổi toán học nếu phân phối dữ liệu bị lệch.
+        \item \textit{Thống kê mô tả:} Dùng các đại lượng mẫu để lập bảng tóm tắt; dùng đồ thị (Histogram, Boxplot, Scatter plot) để trực quan hóa hình dáng phân phối của độ nhám và bước đầu nhận diện tương quan giữa các thông số cắt lớp (Slicer) với độ nhám bề mặt.
+    \end{itemize}
+    
+    \item \textbf{Kiểm định giả thuyết thống kê (Hypothesis Testing):} Ứng dụng kiểm định T-test (1 mẫu, 2 mẫu độc lập) và Phân tích phương sai (ANOVA) kết hợp hậu kiểm Tukey để đánh giá sự khác biệt có ý nghĩa thống kê về độ nhám giữa các nhóm vật liệu, hoặc giữa các cấp độ cài đặt thông số máy in.
+    
+    \item \textbf{Xây dựng mô hình hồi quy tuyến tính (Linear Regression):} Thiết lập mô hình hồi quy đa biến để đánh giá và định lượng mức độ ảnh hưởng của các thông số đầu vào lên biến phụ thuộc là độ nhám bề mặt. Thực hiện kiểm tra nghiêm ngặt các giả định của mô hình (phân phối chuẩn của sai số, hiện tượng đa cộng tuyến, phương sai đồng nhất).
+    
+    \item \textbf{Thực hiện dự báo (Prediction):} Ứng dụng mô hình toán học đã được tinh chỉnh và tối ưu để dự báo giá trị độ nhám bề mặt cho một chi tiết in 3D mới dựa trên một bộ thông số cài đặt bất kỳ.
+\end{enumerate}
+\newpage
